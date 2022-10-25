@@ -60,6 +60,7 @@ public class ImageRecognitionSpawn : MonoBehaviour
           PerguntasUI.Instance.ShowQuestion("Quer invocar o urso?", () => {
             prefab.SetActive(true);
             spawnado = true;
+            AnimController.instantiatedBear(prefab);
           }, () => {
 
         });  
