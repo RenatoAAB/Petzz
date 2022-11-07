@@ -12,6 +12,10 @@ public class AnimController : MonoBehaviour
     public static AudioClip success;
     public static AudioClip fail;
 
+    public static bool IsBearInstantiated(){
+        return bearInstatiated;
+    }
+
     public static void instantiatedBear(GameObject bearAux){
         bearInstatiated = true;
         bear = bearAux;

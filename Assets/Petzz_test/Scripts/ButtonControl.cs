@@ -30,10 +30,16 @@ public class ButtonControl : MonoBehaviour
 
     public void OnPlayButtonClick(){
         AnimController.OnPlayButtonClick();
+        if(AnimController.IsBearInstantiated()){
+            ScoreController.Instance.AddCoin();
+        }
     }
 
     public void OnFeedButtonClick(){
         AnimController.OnFeedButtonClick();
+        if(AnimController.IsBearInstantiated()){
+            ScoreController.Instance.AddCoin();
+        }
     }
 
 
