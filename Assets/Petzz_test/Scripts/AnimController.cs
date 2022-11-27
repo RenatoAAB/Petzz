@@ -16,6 +16,15 @@ public class AnimController : MonoBehaviour
         return bearInstatiated;
     }
 
+    public static GameObject getInstantiatedBear(){
+        if(IsBearInstantiated()){
+            return bear;
+        }
+        else{
+            return null;
+        }
+    }
+
     public static void instantiatedBear(GameObject bearAux){
         bearInstatiated = true;
         bear = bearAux;

@@ -1,43 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using UnityEngine.UI;
 using TMPro;
 
-public class ScoreController : MonoBehaviour
+public class ScoreController : MonoBehaviour, ISaveable
 {
     public TextMeshProUGUI CoinCount;
-    private const string CoinKey = "Coin";
     private int currentScore;
 
     public static ScoreController Instance { get; private set; }
     // Start is called before the first frame update
 
+    public int GetCurrentScore(){
+        return currentScore;
+    }
+
     private void Awake()
     {
         Instance = this;
-    }
-    
-    void Start()
-    {
-        LoadPrefs();
-    }
-
-    // Update is called once per frame
-    void OnApplicationQuit()
-    {
-        SavePrefs();
+        LoadJsonData(Instance);
+        UpdateText();
     }
 
     public void SubtractCoin(int value)
     {
         currentScore -= value;
+        SaveJsonData(Instance);
         UpdateText();
     }
 
     public void AddCoin()
     {
         currentScore += 1;
+        SaveJsonData(Instance);
         UpdateText();
     }
 
@@ -46,16 +43,30 @@ public class ScoreController : MonoBehaviour
         CoinCount.text = currentScore.ToString();
     }
 
-    public void SavePrefs()
+    private static void SaveJsonData(ScoreController sc)
     {
-        PlayerPrefs.SetInt(CoinKey, currentScore);
-        PlayerPrefs.Save();
+        SaveData sd = new SaveData();
+        sd.coinCount = sc.currentScore;
+        if(FileManager.WriteToFile("SaveData.txt", sd.ToJson()))
+        {
+            Debug.Log("Save successful");
+        }
     }
 
-    public void LoadPrefs()
+    private static void LoadJsonData(ScoreController sc)
     {
-        var score = PlayerPrefs.GetInt(CoinKey, 0);
-        currentScore = score;
-        UpdateText();
+        if(FileManager.LoadFromFile("SaveData.txt", out var json))
+        {
+            SaveData sd = new SaveData();
+            sd.LoadFromJson(json);
+
+            sc.LoadFromSaveData(sd);
+        }
     }
+
+    public void LoadFromSaveData(SaveData sd){
+        currentScore = sd.coinCount;
+    }
+
+
 }
