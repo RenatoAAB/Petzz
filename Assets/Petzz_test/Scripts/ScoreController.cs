@@ -46,11 +46,16 @@ public class ScoreController : MonoBehaviour, ISaveable
     private static void SaveJsonData(ScoreController sc)
     {
         SaveData sd = new SaveData();
-        sd.coinCount = sc.currentScore;
+        sc.PopulateSaveData(sd);
         if(FileManager.WriteToFile("SaveData.txt", sd.ToJson()))
         {
             Debug.Log("Save successful");
         }
+    }
+
+    public void PopulateSaveData(SaveData sd)
+    {
+        sd.coinCount = currentScore;
     }
 
     private static void LoadJsonData(ScoreController sc)

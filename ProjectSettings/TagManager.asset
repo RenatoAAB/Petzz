@@ -5,9 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - money
-  - boughtItem
   - inventory
   - body
+  - itemInventory
+  - itemStore
   layers:
   - Default
   - TransparentFX
